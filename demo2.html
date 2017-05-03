@@ -224,12 +224,11 @@
         
   
 <button class="btn-share" id="btnShare">截&nbsp;图</button>
-<script type="text/javascript" src="http://cdn.ucm.ueq.com/assets/plugins??jquery/jquery.min.js,jquery/jquery-migrate.min.js,bootstrap/js/bootstrap.min.js,smoothScroll.js,jquery-appear.js,back-to-top.js"></script>
-<script src="static/js/jspdf.min.js"></script>
-<!--jspdf > html2canvas  -->
-<!-- <script src="./static/html2canvas/0.5.0-beta4/html2canvas.js"></script> -->
-<!-- <script src="https://cdn.bootcss.com/html2canvas/0.5.0-beta4/html2canvas.min.js"></script> -->
-<!-- <script src="./static/js/hidpi-canvas.js"></script> -->
+
+
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="./static/js/jspdf.min.js"></script>
+<!--jspdf > html2canvas  jspdf必须放在前面-->
 <script src="./static/js/html2canvas.js"></script>
 
 
@@ -267,7 +266,7 @@
             
             var canvas = document.createElement('canvas');  //创建canvas 对象
             var context = canvas.getContext('2d');
-            var scaleBy = 2;  //采用自定义缩放比例
+            var scaleBy = 3;  //采用自定义缩放比例
             canvas.width = width * scaleBy;  
             canvas.height = height * scaleBy;
             canvas.style.width=width+'px';
@@ -281,7 +280,7 @@
                 tainttest:true, //检测每张图片都已经加载完成
                 scale:scaleBy, // 添加的scale 参数
                 canvas:canvas, //自定义 canvas
-                type:'views', //自定义 canvas
+                type:'views', 
                 logging: true, //日志开关，发布的时候记得改成false
                 width:width, //dom 原始宽度
                 height:height+28 //dom 原始高度(手动加26不然会截取不完整，这个值需要跟实际情况调整)
@@ -299,7 +298,8 @@
                 //var doc = new jsPDF();
                 // 只有这样设置 canvas.toDataURL('image/jpeg', 1.0);，在 Acrobat Reader 软件才能打开
                     var pageData = canvas.toDataURL('image/jpeg', 1.0);
-                    //后四个参数： 第一列 左右边距  第二列上下边距  第三列是图片左右拉伸  第四列 图片上下拉伸
+                    //四个参数： 第一列 左右边距  第二列上下边距  第三列是图片左右拉伸  第四列 图片上下拉伸
+                    //addImage后两个参数控制添加图片的尺寸，此处将页面高度按照 宽高比列进行压缩
                     doc.addImage(pageData, 'jpg', 0, 0, 100, 100/canvas.width * canvas.height);
                     doc.save(filename + '.pdf');
             });
